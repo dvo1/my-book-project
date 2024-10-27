@@ -5,6 +5,8 @@ import { Book } from "../../models/search";
 import BookCards from "../cards/book-cards";
 
 import BookCardSkeleton from "../skeletons/book-card-skeleton";
+import {getSearchResults} from '../../API/search'
+
 
 const Search = () => {
   const [query, setQuery] = useState<string>("");
@@ -22,11 +24,14 @@ const Search = () => {
 
     try {
       const startIndex = page * resultsPerPage;
-      const response = await axios.get<{ items: Book[]; totalItems: number }>(
-        `https://www.googleapis.com/books/v1/volumes?q=${searchQuery}&startIndex=${startIndex}&maxResults=${resultsPerPage}`
-      );
-      setBooks(response.data.items || []);
-      setTotalItems(response.data.totalItems || 0);
+      const response = await getSearchResults({
+        searchQuery,
+        startIndex,
+        resultsPerPage
+      })
+      console.log(response)
+      setBooks(response.items || []);
+      setTotalItems(response.totalItems || 0);
     } catch (err) {
       console.error("Error fetching books:", err);
       setError("Something went wrong. Please try again.");

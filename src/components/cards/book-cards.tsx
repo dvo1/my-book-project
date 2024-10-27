@@ -8,7 +8,7 @@ interface BookCardsProps {
 }
 
 const BookCards: React.FC<BookCardsProps> = ({ book }) => {
-    console.log(book)
+  //  console.log(book)
   return (
     <Link to={`/book/${book.id}`} className="h-full"> 
     <div className="bg-white p-4 rounded-lg shadow flex flex-col h-full">

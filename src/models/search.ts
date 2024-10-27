@@ -11,4 +11,11 @@ export interface Book {
     description?: string; 
     publishedDate: string
   };
+
 }
+
+export interface BookResponse {
+  items: Book[];
+  totalItems: number;
+}
+
