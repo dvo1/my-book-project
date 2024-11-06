@@ -8,7 +8,8 @@ const HomePage = () => {
     <>
     <Navbar />
     <Hero />
-    <Search />
+    <Search query=''/>
+
     </>
   )
 }

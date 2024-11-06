@@ -36,8 +36,9 @@ describe("Search Component", () => {
 
     await waitFor(() => {
       expect(mockedAxios.get).toHaveBeenCalledWith(expect.stringContaining("Harry Potter"));
-      expect(screen.getByText(/Harry Potter/i)).toBeInTheDocument();
+      
     });
+    expect(screen.getByText(/Harry Potter/i)).toBeInTheDocument();
   });
 
   test("displays loading skeleton while fetching data", async () => {
@@ -91,7 +92,8 @@ describe("Search Component", () => {
 
     await waitFor(() => {
       expect(screen.getByText(/Harry Potter/i)).toBeInTheDocument();
-      expect(screen.getByAltText(/Harry Potter/i)).toBeInTheDocument(); 
+     
     });
+    expect(screen.getByAltText(/Harry Potter/i)).toBeInTheDocument(); 
   });
 });

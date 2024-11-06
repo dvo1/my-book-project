@@ -47,11 +47,9 @@ describe("BookDetails Component", () => {
 
     expect(screen.getByRole("img", { hidden: true })).toBeInTheDocument(); 
 
-    await waitFor(() => {
-      expect(screen.getByText("Harry Potter")).toBeInTheDocument(); 
-      expect(screen.getByText("J.K. Rowling")).toBeInTheDocument(); 
-      expect(screen.getByAltText("Harry Potter")).toBeInTheDocument();
-    });
+    expect(await screen.findByText("Harry Potter")).toBeInTheDocument();
+    expect(await screen.findByText("J.K. Rowling")).toBeInTheDocument();
+    expect(await screen.findByAltText("Harry Potter")).toBeInTheDocument();
   });
 
   test("displays error message on fetch failure", async () => {
