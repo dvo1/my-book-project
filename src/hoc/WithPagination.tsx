@@ -1,5 +1,5 @@
 import { getSearchResults } from '../API/search';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 
 interface PaginationProps<T> {
   data: T[];
@@ -10,7 +10,6 @@ interface PaginationProps<T> {
   nextPage: () => void;
   prevPage: () => void;
   fetchData: (query: string, page: number) => void;
-//   m
 }
 
 export function WithPagination<T>(WrappedComponent: React.ComponentType<PaginationProps<T>>) {
@@ -22,30 +21,33 @@ export function WithPagination<T>(WrappedComponent: React.ComponentType<Paginati
     const [totalItems, setTotalItems] = useState<number>(0);
     const resultsPerPage = 10;
 
-    const fetchData = async (searchQuery: string, page: number) => {
-      console.log("Fetching data with:", { searchQuery, page });
-      setLoading(true);
-      setError(null);
+    const fetchData = useCallback(
+      async (searchQuery: string, pageNumber: number) => {
+        console.log("Fetching data with:", { searchQuery, pageNumber });
+        setLoading(true);
+        setError(null);
 
-      try {
-        const startIndex = page * resultsPerPage;
-        const response = await getSearchResults({
-          searchQuery,
-          startIndex,
-          resultsPerPage,
-        });
-        setData(response?.items as any || []);
-        setTotalItems(response.totalItems || 0);
-      } catch (err) {
-        setError("Something went wrong. Please try again.");
-      } finally {
-        setLoading(false);
-      }
-    };
+        try {
+          const startIndex = pageNumber * resultsPerPage;
+          const response = await getSearchResults({
+            searchQuery,
+            startIndex,
+            resultsPerPage,
+          });
+          setData((response?.items as T[]) || []); 
+          setTotalItems(response.totalItems || 0);
+        } catch (err) {
+          setError("Something went wrong. Please try again.");
+        } finally {
+          setLoading(false);
+        }
+      },
+      [resultsPerPage]
+    );
 
     useEffect(() => {
-        fetchData(query, page);
-    }, [page]);
+      fetchData(query, page);
+    }, [fetchData, query, page]);
 
     const nextPage = () => {
       if (page < Math.floor(totalItems / resultsPerPage)) {
