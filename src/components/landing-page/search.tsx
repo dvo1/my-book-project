@@ -29,7 +29,7 @@ const Search: React.FC<SearchProps> = ({
   const [query, setQuery] = useState<string>("");
 
   useEffect(() => {
-    // Get query from the URL on component mount
+    
     const urlParams = new URLSearchParams(window.location.search);
     const initialQuery = urlParams.get("query") || "";
     setQuery(initialQuery);
@@ -47,7 +47,7 @@ const Search: React.FC<SearchProps> = ({
     url.searchParams.set("query", query);
     window.history.pushState({}, "", url.toString());
 
-    fetchData(query, 0); // Reset to first page on a new search
+    fetchData(query, 0);
   };
 
   return (
