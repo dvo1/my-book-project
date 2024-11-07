@@ -10,6 +10,7 @@ interface PaginationProps<T> {
   nextPage: () => void;
   prevPage: () => void;
   fetchData: (query: string, page: number) => void;
+//   m
 }
 
 export function WithPagination<T>(WrappedComponent: React.ComponentType<PaginationProps<T>>) {
